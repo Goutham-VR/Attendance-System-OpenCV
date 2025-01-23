@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Today's Attendance</title>
+</head>
+<body>
+    <h1>Attendance for {{ date.today }}</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Time</th>
+        </tr>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'Guest:dashboard' %}">Back to Dashboard</a>
+</body>
+</html>

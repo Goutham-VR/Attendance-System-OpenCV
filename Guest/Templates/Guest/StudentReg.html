@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+</head>
+<body>
+    <h1>Student Registration</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="mail">Email:</label>
+        <input type="email" id="mail" name="mail" required><br><br>
+
+        <label for="cont">Contact:</label>
+        <input type="text" id="cont" name="cont" required><br><br>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required><br><br>
+
+        <div>
+            <label for="file_photo">Captured Photo:</label>
+            <input type="hidden" id="file_photo" name="file_photo">
+            <video id="video" width="320" height="240" autoplay></video>
+            <button type="button" id="capture-btn">Capture Photo</button>
+            <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+        </div>
+        <br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureButton = document.getElementById("capture-btn");
+        const filePhotoInput = document.getElementById("file_photo");
+
+        // Start the webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error("Error accessing the webcam: ", error);
+            });
+
+        // Capture the photo
+        captureButton.addEventListener("click", () => {
+            const context = canvas.getContext("2d");
+            canvas.style.display = "block";
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataURL = canvas.toDataURL("image/png");
+            filePhotoInput.value = dataURL;
+            alert("Photo captured successfully!");
+        });
+    </script>
+</body>
+</html>
